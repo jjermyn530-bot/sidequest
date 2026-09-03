@@ -13,6 +13,22 @@ export async function signUp(email,password){const supabase=await client();const
 export async function signIn(email,password){const supabase=await client();const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;return data}
 export async function signOut(){const supabase=await client();const {error}=await supabase.auth.signOut();if(error)throw error}
 
+export async function savePushSubscription(subscription){
+  const supabase=await client();
+  const {data:{user},error:userError}=await supabase.auth.getUser();
+  if(userError||!user)throw userError??new Error('Sign in before connecting this device.');
+  const json=subscription.toJSON();
+  const {error}=await supabase.from('sidequest_push_subscriptions').upsert({
+    user_id:user.id,
+    endpoint:json.endpoint,
+    p256dh:json.keys?.p256dh,
+    auth:json.keys?.auth,
+    user_agent:navigator.userAgent,
+    updated_at:new Date().toISOString()
+  },{onConflict:'user_id,endpoint'});
+  if(error)throw error;
+}
+
 export async function syncTasks(localTasks,saveLocal){
   const supabase=await client();
   const {data:{user},error:userError}=await supabase.auth.getUser();

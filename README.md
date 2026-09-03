@@ -29,3 +29,7 @@ Then open `http://localhost:8080`.
 3. Open Sidequest and select the circular level/profile button to create an account.
 
 The client uses only the project's browser-safe publishable key. Never place a secret or service-role key in this folder.
+
+## Closed-app notifications
+
+`sidequest_push_subscriptions` stores each signed-in user's browser subscription behind RLS. Add the VAPID public key to `config.js`; keep its private half only in Supabase Edge Function Secrets. The app deliberately falls back to device-only test notifications until that public key is configured.
