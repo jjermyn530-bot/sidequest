@@ -33,3 +33,5 @@ The client uses only the project's browser-safe publishable key. Never place a s
 ## Closed-app notifications
 
 `sidequest_push_subscriptions` stores each signed-in user's browser subscription behind RLS. Add the VAPID public key to `config.js`; keep its private half only in Supabase Edge Function Secrets. The app deliberately falls back to device-only test notifications until that public key is configured.
+
+The `sidequest-notifications` Edge Function is intended to be invoked every minute by Supabase Cron. It calculates time in `Europe/London`, sends one combined morning timetable, an evening due-tomorrow warning, and a Sunday Sparx reminder. Notification log keys prevent duplicate delivery.

@@ -1,0 +1,4 @@
+project_id = "elkvochblyzpvuyexvgs"
+
+[functions.sidequest-notifications]
+verify_jwt = false
