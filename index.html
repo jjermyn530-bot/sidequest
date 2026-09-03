@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#100d19">
   <meta name="description" content="A private, offline-first school command centre.">
-  <link rel="manifest" href="manifest.webmanifest?v=14">
+  <link rel="manifest" href="manifest.webmanifest?v=15">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=15">
   <title>Sidequest</title>
 </head>
 <body>
@@ -106,6 +106,18 @@
           <button class="secondary-button" id="export-button" type="button">Export backup</button>
           <label class="secondary-button import-label">Import backup<input id="import-input" type="file" accept="application/json"></label>
         </article>
+        <article class="settings-card">
+          <div class="settings-heading"><div><span class="eyebrow">Android alerts</span><h3>Notifications</h3></div><span class="permission-badge" id="notification-state">Not enabled</span></div>
+          <label class="switch-row"><span>Morning lesson briefing</span><input id="morning-enabled" type="checkbox" checked></label>
+          <label>Morning time<input id="morning-time" type="time" value="07:00"></label>
+          <label class="switch-row"><span>Tomorrow deadline warning</span><input id="evening-enabled" type="checkbox" checked></label>
+          <label>Evening time<input id="evening-time" type="time" value="19:00"></label>
+          <label class="switch-row"><span>Sunday Sparx reminder</span><input id="sparx-enabled" type="checkbox" checked></label>
+          <label>Sparx reminder time<input id="sparx-time" type="time" value="18:00"></label>
+          <button class="primary-button" id="enable-notifications" type="button">Enable notifications</button>
+          <button class="secondary-button" id="test-notification" type="button">Send test notification</button>
+          <p class="settings-note">Scheduled delivery while the app is closed will be connected after the device test succeeds.</p>
+        </article>
       </section>
     </main>
 
@@ -152,6 +164,6 @@
   </dialog>
 
   <div class="status-pill" id="status-pill" aria-live="polite">Offline ready</div>
-  <script type="module" src="app.js?v=14"></script>
+  <script type="module" src="app.js?v=15"></script>
 </body>
 </html>
