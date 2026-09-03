@@ -75,5 +75,5 @@ Deno.serve(async () => {
       }
     }
   }
-  return Response.json({ ok: true, sent, checkedAt: `${today} ${time}` });
+  return Response.json({ ok: true, devices: subscriptions?.length ?? 0, sent, checkedAt: `${today} ${time}` });
 });
