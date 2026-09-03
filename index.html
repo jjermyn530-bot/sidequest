@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#100d19">
   <meta name="description" content="A private, offline-first school command centre.">
-  <link rel="manifest" href="manifest.webmanifest?v=15">
+  <link rel="manifest" href="manifest.webmanifest?v=17">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="friends.css?v=17">
   <title>Sidequest</title>
 </head>
 <body>
@@ -91,6 +92,13 @@
         <div class="timer-controls"><button class="primary-button" id="timer-toggle" type="button">Start focus</button><button class="secondary-button" id="timer-reset" type="button">Reset</button></div>
       </section>
 
+      <section class="page" data-page="friends" aria-labelledby="friends-title">
+        <div class="page-heading"><div><p class="eyebrow">Your classes</p><h2 id="friends-title">Classmates</h2></div><button class="primary-button" id="new-friend" type="button">+ Person</button></div>
+        <div class="class-tabs" id="friend-class-tabs"></div>
+        <div class="friends-summary" id="friends-summary"></div>
+        <div class="friend-grid" id="friend-grid"></div>
+      </section>
+
       <section class="page" data-page="workshop" aria-labelledby="workshop-title">
         <p class="eyebrow">Make it yours</p><h2 id="workshop-title">Workshop</h2>
         <article class="settings-card">
@@ -127,6 +135,7 @@
       <button type="button" data-nav="quests"><span>⚔</span>Quests</button>
       <button type="button" data-nav="calendar"><span>□</span>Calendar</button>
       <button type="button" data-nav="focus"><span>◷</span>Focus</button>
+      <button type="button" data-nav="friends"><span>♧</span>Friends</button>
       <button type="button" data-nav="workshop"><span>◇</span>Workshop</button>
     </nav>
   </div>
@@ -142,6 +151,20 @@
       </div>
       <label>Estimated minutes<input id="task-minutes" type="number" min="5" max="600" step="5" value="30"></label>
       <menu><button class="delete-button" id="delete-task" type="button" hidden>Delete</button><span class="menu-spacer"></span><button class="secondary-button" value="cancel" formmethod="dialog">Cancel</button><button class="primary-button" value="default">Save quest</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="friend-dialog">
+    <form id="friend-form" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">Class directory</p><h2 id="friend-dialog-title">Add person</h2></div><button class="icon-button" value="cancel" formmethod="dialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="friend-id">
+      <div class="friend-photo-field"><div class="friend-avatar preview" id="friend-photo-preview">?</div><label class="secondary-button import-label">Choose picture<input id="friend-photo" type="file" accept="image/*"></label></div>
+      <label>Name<input id="friend-name" required maxlength="60" autocomplete="off"></label>
+      <label>Custom nickname <span class="optional">(only you see this)</span><input id="friend-nickname" maxlength="40" autocomplete="off"></label>
+      <label>Private notes<textarea id="friend-notes" maxlength="500" placeholder="Lab partner, owes me a pen…"></textarea></label>
+      <fieldset><legend>Classes together</legend><div class="class-checks" id="friend-class-checks"></div></fieldset>
+      <label>Sidequest friend code <span class="optional">(optional, linking comes next)</span><input id="friend-code" maxlength="24" autocomplete="off" placeholder="e.g. PLAYER-A7K2"></label>
+      <menu><button class="delete-button" id="delete-friend" type="button" hidden>Delete</button><span class="menu-spacer"></span><button class="secondary-button" value="cancel" formmethod="dialog">Cancel</button><button class="primary-button" value="default">Save person</button></menu>
     </form>
   </dialog>
 
@@ -164,6 +187,6 @@
   </dialog>
 
   <div class="status-pill" id="status-pill" aria-live="polite">Offline ready</div>
-  <script type="module" src="app.js?v=15"></script>
+  <script type="module" src="app.js?v=17"></script>
 </body>
 </html>
