@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#100d19">
   <meta name="description" content="A private, offline-first school command centre.">
-  <link rel="manifest" href="manifest.webmanifest?v=18">
+  <link rel="manifest" href="manifest.webmanifest?v=19">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=18">
-  <link rel="stylesheet" href="friends.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=19">
+  <link rel="stylesheet" href="friends.css?v=19">
   <title>Sidequest</title>
 </head>
 <body>
@@ -94,6 +94,8 @@
 
       <section class="page" data-page="friends" aria-labelledby="friends-title">
         <div class="page-heading"><div><p class="eyebrow">Your classes</p><h2 id="friends-title">Classmates</h2></div><button class="primary-button" id="new-friend" type="button">+ Person</button></div>
+        <article class="social-profile" id="social-profile"><div><span class="eyebrow">Sidequest identity</span><strong id="social-profile-name">Set up your profile</strong><code id="social-friend-code">No friend code yet</code></div><button class="secondary-button" id="edit-profile" type="button">Set up</button></article>
+        <div class="request-list" id="friend-requests"></div>
         <div class="class-tabs" id="friend-class-tabs"></div>
         <div class="friends-summary" id="friends-summary"></div>
         <div class="quick-add" id="friend-quick-add"></div>
@@ -169,6 +171,21 @@
     </form>
   </dialog>
 
+  <dialog id="profile-dialog">
+    <form id="profile-form" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">Public identity</p><h2>Your Sidequest profile</h2></div><button class="icon-button" value="cancel" formmethod="dialog" aria-label="Close">×</button></div>
+      <div class="friend-photo-field"><div class="friend-avatar preview" id="profile-photo-preview">?</div><label class="secondary-button import-label">Choose picture<input id="profile-photo" type="file" accept="image/*"></label></div>
+      <label>Display name<input id="profile-name" required maxlength="60" autocomplete="off"></label>
+      <fieldset><legend>Accepted friends may see</legend>
+        <label class="switch-row"><span>Today’s lessons and rooms</span><input id="share-lessons" type="checkbox" checked></label>
+        <label class="switch-row"><span>Homework titles and deadlines</span><input id="share-homework" type="checkbox"></label>
+        <label class="switch-row"><span>Homework completion</span><input id="share-completion" type="checkbox"></label>
+        <label class="switch-row"><span>Sparx progress</span><input id="share-sparx" type="checkbox"></label>
+      </fieldset>
+      <menu><button class="secondary-button" value="cancel" formmethod="dialog">Cancel</button><button class="primary-button" value="default">Save profile</button></menu>
+    </form>
+  </dialog>
+
   <dialog id="account-dialog">
     <form id="account-form">
       <div class="dialog-heading"><div><p class="eyebrow">Private cloud</p><h2>Sidequest account</h2></div><button class="icon-button" id="close-account" type="button" aria-label="Close">×</button></div>
@@ -188,6 +205,6 @@
   </dialog>
 
   <div class="status-pill" id="status-pill" aria-live="polite">Offline ready</div>
-  <script type="module" src="app.js?v=18"></script>
+  <script type="module" src="app.js?v=19"></script>
 </body>
 </html>

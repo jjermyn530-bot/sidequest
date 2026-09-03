@@ -29,6 +29,25 @@ export async function savePushSubscription(subscription){
   if(error)throw error;
 }
 
+export async function socialState(){
+  const supabase=await client();
+  const {data,error}=await supabase.rpc('sidequest_social_state');
+  if(error)throw error;
+  return data??{profile:null,requests:[]};
+}
+
+export async function saveProfile(profile){
+  const supabase=await client();
+  const {data:{user},error:userError}=await supabase.auth.getUser();
+  if(userError||!user)throw userError??new Error('Sign in before creating a profile.');
+  const {error}=await supabase.from('sidequest_profiles').upsert({user_id:user.id,display_name:profile.displayName,avatar_data:profile.avatar||null,share_lessons:profile.shareLessons,share_homework:profile.shareHomework,share_completion:profile.shareCompletion,share_sparx:profile.shareSparx,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  if(error)throw error;
+  return socialState();
+}
+
+export async function sendFriendRequest(code){const supabase=await client();const {data,error}=await supabase.rpc('sidequest_send_friend_request',{code});if(error)throw error;return data}
+export async function answerFriendRequest(id,status){const supabase=await client();const {error}=await supabase.from('sidequest_friend_requests').update({status,updated_at:new Date().toISOString()}).eq('id',id);if(error)throw error;return socialState()}
+
 export async function syncTasks(localTasks,saveLocal){
   const supabase=await client();
   const {data:{user},error:userError}=await supabase.auth.getUser();

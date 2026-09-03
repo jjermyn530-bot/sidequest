@@ -86,3 +86,83 @@ create table if not exists public.sidequest_notification_log (
 
 alter table public.sidequest_notification_log enable row level security;
 revoke all on table public.sidequest_notification_log from anon, authenticated;
+
+create table if not exists public.sidequest_profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  friend_code text not null unique default ('SQ-' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8))),
+  display_name text not null check (char_length(display_name) between 1 and 60),
+  avatar_data text,
+  share_lessons boolean not null default true,
+  share_homework boolean not null default false,
+  share_completion boolean not null default false,
+  share_sparx boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.sidequest_friend_requests (
+  id uuid primary key default gen_random_uuid(),
+  requester_id uuid not null references auth.users(id) on delete cascade,
+  recipient_id uuid not null references auth.users(id) on delete cascade,
+  status text not null default 'pending' check (status in ('pending','accepted','declined')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (requester_id, recipient_id),
+  check (requester_id <> recipient_id)
+);
+
+alter table public.sidequest_profiles enable row level security;
+alter table public.sidequest_friend_requests enable row level security;
+revoke all on table public.sidequest_profiles from anon, authenticated;
+revoke all on table public.sidequest_friend_requests from anon, authenticated;
+grant select, insert, update on table public.sidequest_profiles to authenticated;
+grant select, insert, update, delete on table public.sidequest_friend_requests to authenticated;
+
+drop policy if exists "Users manage their own Sidequest profile" on public.sidequest_profiles;
+create policy "Users manage their own Sidequest profile" on public.sidequest_profiles
+  for all to authenticated using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "Users see their Sidequest friend requests" on public.sidequest_friend_requests;
+create policy "Users see their Sidequest friend requests" on public.sidequest_friend_requests
+  for select to authenticated using ((select auth.uid()) in (requester_id, recipient_id));
+
+drop policy if exists "Users send Sidequest friend requests" on public.sidequest_friend_requests;
+create policy "Users send Sidequest friend requests" on public.sidequest_friend_requests
+  for insert to authenticated with check ((select auth.uid()) = requester_id);
+
+drop policy if exists "Recipients answer Sidequest friend requests" on public.sidequest_friend_requests;
+create policy "Recipients answer Sidequest friend requests" on public.sidequest_friend_requests
+  for update to authenticated using ((select auth.uid()) = recipient_id)
+  with check ((select auth.uid()) = recipient_id);
+
+create or replace function public.sidequest_send_friend_request(code text)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare target uuid; request_id uuid;
+begin
+  select user_id into target from sidequest_profiles where upper(friend_code) = upper(trim(code));
+  if target is null then raise exception 'Friend code not found'; end if;
+  if target = auth.uid() then raise exception 'That is your own friend code'; end if;
+  insert into sidequest_friend_requests (requester_id, recipient_id, status, updated_at)
+  values (auth.uid(), target, 'pending', now())
+  on conflict (requester_id, recipient_id) do update set status = 'pending', updated_at = now()
+  returning id into request_id;
+  return request_id;
+end $$;
+revoke all on function public.sidequest_send_friend_request(text) from public;
+grant execute on function public.sidequest_send_friend_request(text) to authenticated;
+
+create or replace function public.sidequest_social_state()
+returns jsonb language sql security definer stable set search_path = public as $$
+  select jsonb_build_object(
+    'profile', (select to_jsonb(p) from sidequest_profiles p where p.user_id = auth.uid()),
+    'requests', coalesce((select jsonb_agg(jsonb_build_object(
+      'id', r.id, 'status', r.status, 'direction', case when r.requester_id = auth.uid() then 'outgoing' else 'incoming' end,
+      'person', case when r.status = 'accepted' or r.recipient_id = auth.uid() then
+        (select jsonb_build_object('user_id', p.user_id, 'display_name', p.display_name, 'avatar_data', p.avatar_data, 'friend_code', p.friend_code)
+         from sidequest_profiles p where p.user_id = case when r.requester_id = auth.uid() then r.recipient_id else r.requester_id end)
+      else null end
+    )) from sidequest_friend_requests r where auth.uid() in (r.requester_id, r.recipient_id)), '[]'::jsonb)
+  )
+$$;
+revoke all on function public.sidequest_social_state() from public;
+grant execute on function public.sidequest_social_state() to authenticated;
