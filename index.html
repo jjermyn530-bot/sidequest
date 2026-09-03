@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#100d19">
+  <meta name="description" content="A private, offline-first school command centre.">
+  <link rel="manifest" href="manifest.webmanifest?v=13">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=13">
+  <title>Sidequest</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="today-label"></p>
+        <h1>Evening, Player.</h1>
+      </div>
+      <button class="level-avatar" id="profile-button" type="button" aria-label="Open profile">7</button>
+    </header>
+
+    <main>
+      <section class="page active" data-page="home" aria-labelledby="home-title">
+        <h2 class="sr-only" id="home-title">Command centre</h2>
+        <article class="level-card">
+          <div class="split"><span>Level 7 · Academic Menace</span><span id="xp-label">680 / 1000 XP</span></div>
+          <div class="progress-track"><span id="xp-bar"></span></div>
+        </article>
+
+        <section class="home-schedule" aria-labelledby="schedule-title">
+          <div class="section-heading"><h2 id="schedule-title">School radar</h2><span id="home-week-label">Week A</span></div>
+          <div class="radar-grid">
+            <article class="radar-card"><span class="radar-label" id="next-lesson-label">Next lesson</span><strong id="next-lesson-name">—</strong><span id="next-lesson-meta">Checking timetable…</span></article>
+            <article class="radar-card"><span class="radar-label" id="next-day-label">Next school day</span><strong id="next-day-name">—</strong><span id="next-day-meta">Checking timetable…</span></article>
+          </div>
+          <div class="today-strip" id="today-strip"></div>
+        </section>
+
+        <section aria-labelledby="sparx-title">
+          <div class="section-heading"><h2 id="sparx-title">Weekly Sparx</h2><button class="text-button" id="reset-progress" type="button">Reset week</button></div>
+          <div class="progress-grid" id="progress-grid"></div>
+        </section>
+
+        <section aria-labelledby="next-title">
+          <div class="section-heading"><h2 id="next-title">Next quests</h2><span id="remaining-count"></span></div>
+          <div id="task-list" class="task-list"></div>
+          <p class="empty-state" id="empty-state" hidden>No quests here. Suspiciously peaceful.</p>
+        </section>
+
+        <button class="panic-button" id="panic-button" type="button">⚠ Engage panic mode</button>
+        <div class="panic-plan" id="panic-plan" hidden></div>
+      </section>
+
+      <section class="page" data-page="quests" aria-labelledby="quests-title">
+        <div class="page-heading"><div><p class="eyebrow">All assignments</p><h2 id="quests-title">Quest log</h2></div><button class="primary-button" type="button" data-open-task>+ New</button></div>
+        <div class="filter-row" role="group" aria-label="Filter quests">
+          <button class="filter active" data-filter="active" type="button">Active</button>
+          <button class="filter" data-filter="completed" type="button">Completed</button>
+          <button class="filter" data-filter="all" type="button">All</button>
+        </div>
+        <div id="quest-list" class="task-list"></div>
+      </section>
+
+      <section class="page" data-page="calendar" aria-labelledby="calendar-title">
+        <div class="page-heading">
+          <div><p class="eyebrow">Deadline radar · <span id="current-week-label">Week A</span></p><h2 id="calendar-title">Calendar</h2></div>
+          <div class="calendar-actions">
+            <button class="secondary-button" id="calendar-export" type="button">Export .ics</button>
+            <label class="secondary-button import-label">Import .ics<input id="calendar-import" type="file" accept="text/calendar,.ics"></label>
+          </div>
+        </div>
+        <section class="timetable-panel" aria-labelledby="timetable-title">
+          <div class="section-heading">
+            <h2 id="timetable-title">Timetable</h2>
+            <div class="week-switch" role="group" aria-label="Timetable week">
+              <button class="filter active" type="button" data-week="A">Week A</button>
+              <button class="filter" type="button" data-week="B">Week B</button>
+            </div>
+          </div>
+          <p class="timetable-help">Choose a day to see its lessons, times, and rooms.</p>
+          <div class="timetable-grid" id="timetable-grid"></div>
+        </section>
+        <div class="section-heading"><h2>Deadlines</h2><span id="calendar-week-note"></span></div>
+        <div id="calendar-list" class="timeline"></div>
+      </section>
+
+      <section class="page focus-page" data-page="focus" aria-labelledby="focus-title">
+        <p class="eyebrow">Do one thing</p><h2 id="focus-title">Focus chamber</h2>
+        <div class="timer" id="timer">25:00</div>
+        <div class="timer-controls"><button class="primary-button" id="timer-toggle" type="button">Start focus</button><button class="secondary-button" id="timer-reset" type="button">Reset</button></div>
+      </section>
+
+      <section class="page" data-page="workshop" aria-labelledby="workshop-title">
+        <p class="eyebrow">Make it yours</p><h2 id="workshop-title">Workshop</h2>
+        <article class="settings-card">
+          <label for="accent-select">Accent</label>
+          <select id="accent-select">
+            <option value="violet">Reactor violet</option>
+            <option value="cyan">Plasma cyan</option>
+            <option value="lime">Toxic lime</option>
+            <option value="rose">Critical rose</option>
+          </select>
+          <label class="switch-row"><span>Reduced motion</span><input id="motion-toggle" type="checkbox"></label>
+          <label class="switch-row"><span>Generic notification text</span><input id="privacy-toggle" type="checkbox" checked></label>
+          <button class="secondary-button" id="export-button" type="button">Export backup</button>
+          <label class="secondary-button import-label">Import backup<input id="import-input" type="file" accept="application/json"></label>
+        </article>
+      </section>
+    </main>
+
+    <button class="fab" type="button" data-open-task aria-label="Create a quest">+</button>
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="active" type="button" data-nav="home"><span>⌂</span>Home</button>
+      <button type="button" data-nav="quests"><span>⚔</span>Quests</button>
+      <button type="button" data-nav="calendar"><span>□</span>Calendar</button>
+      <button type="button" data-nav="focus"><span>◷</span>Focus</button>
+      <button type="button" data-nav="workshop"><span>◇</span>Workshop</button>
+    </nav>
+  </div>
+
+  <dialog id="task-dialog">
+    <form id="task-form" method="dialog">
+      <div class="dialog-heading"><h2 id="task-dialog-title">New quest</h2><button class="icon-button" value="cancel" formmethod="dialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="task-id">
+      <label>Quest name<input id="task-title" required maxlength="100" autocomplete="off"></label>
+      <div class="form-grid">
+        <label>Subject<input id="task-subject" required maxlength="40" autocomplete="off"></label>
+        <label>Due date<input id="task-due" type="date" required></label>
+      </div>
+      <label>Estimated minutes<input id="task-minutes" type="number" min="5" max="600" step="5" value="30"></label>
+      <menu><button class="delete-button" id="delete-task" type="button" hidden>Delete</button><span class="menu-spacer"></span><button class="secondary-button" value="cancel" formmethod="dialog">Cancel</button><button class="primary-button" value="default">Save quest</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="account-dialog">
+    <form id="account-form">
+      <div class="dialog-heading"><div><p class="eyebrow">Private cloud</p><h2>Sidequest account</h2></div><button class="icon-button" id="close-account" type="button" aria-label="Close">×</button></div>
+      <div id="signed-out-panel">
+        <p class="account-copy">Use a personal email. Your school account is not involved.</p>
+        <label>Email<input id="account-email" type="email" autocomplete="email" required></label>
+        <label>Password<input id="account-password" type="password" autocomplete="current-password" minlength="8" required></label>
+        <div class="account-actions"><button class="secondary-button" id="signup-button" type="button">Create account</button><button class="primary-button" id="signin-button" type="submit">Sign in</button></div>
+      </div>
+      <div id="signed-in-panel" hidden>
+        <p class="account-copy">Signed in as <strong id="account-user"></strong></p>
+        <button class="primary-button account-wide" id="sync-button" type="button">Sync now</button>
+        <button class="secondary-button account-wide" id="signout-button" type="button">Sign out</button>
+      </div>
+      <p class="account-status" id="account-status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <div class="status-pill" id="status-pill" aria-live="polite">Offline ready</div>
+  <script type="module" src="app.js?v=13"></script>
+</body>
+</html>

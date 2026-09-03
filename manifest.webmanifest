@@ -1,0 +1,11 @@
+{
+  "name":"Sidequest — School Command Centre",
+  "short_name":"Sidequest",
+  "description":"A private, offline-first school command centre.",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#09080f",
+  "theme_color":"#100d19",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
