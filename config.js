@@ -3,5 +3,5 @@ export const SUPABASE_CONFIG={
   publishableKey:'sb_publishable_ODygCXQ65xaDiItmXNucWA_PdWnq_Pg',
   // Browser-safe public half of the Web Push key pair. The private half belongs
   // only in Supabase Edge Function Secrets and must never be committed here.
-  vapidPublicKey:''
+  vapidPublicKey:'BHG0LCpF_28EhXT_fmjBTqbmUF7fD4AEljkarRhSeHLHYZaK05Y1TqSIfkjTJvMLCZlg4fDSrYaHcR9EecksmtQ'
 };
