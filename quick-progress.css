@@ -54,3 +54,42 @@
   color: var(--muted);
   line-height: 1.35;
 }
+
+dialog select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: #1b1727;
+  color: var(--text);
+}
+
+.prep-list {
+  display: grid;
+  gap: 8px;
+}
+
+.prep-item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.prep-item > span {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.prep-item strong,
+.prep-item small {
+  display: block;
+}
+
+.prep-item strong { font-size: .86rem; }
+.prep-item small { margin-top: 3px; color: var(--muted); font-size: .73rem; }
+.prep-clear { margin: 0; padding: 14px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); font-size: .8rem; text-align: center; }
