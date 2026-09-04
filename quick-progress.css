@@ -93,3 +93,24 @@ dialog select {
 .prep-item strong { font-size: .86rem; }
 .prep-item small { margin-top: 3px; color: var(--muted); font-size: .73rem; }
 .prep-clear { margin: 0; padding: 14px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); font-size: .8rem; text-align: center; }
+
+.briefing-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 9px; }
+.briefing-hero,.weather-card,.personal-countdown { padding: 15px; border: 1px solid var(--border); border-radius: 17px; background: linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,var(--surface)),var(--surface)); }
+.briefing-hero { display: grid; gap: 5px; }
+.briefing-hero strong { font-size: 1.15rem; }
+.briefing-hero small,.weather-card small { color: var(--muted); }
+.weather-card { display: flex; align-items: center; gap: 10px; }
+.weather-card > span { font-size: 1.8rem; }
+.weather-card strong,.weather-card small { display: block; }
+.weather-card strong { font-size: .84rem; }
+.weather-card small { margin-top: 4px; font-size: .7rem; }
+.prep-checklist { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 9px; }
+.prep-checklist label { display: flex; align-items: center; gap: 7px; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); font-size: .72rem; cursor: pointer; }
+.prep-checklist input { accent-color: var(--accent-2); }
+.personal-countdown { display: flex; justify-content: space-between; gap: 12px; margin-top: 9px; }
+.personal-countdown strong { color: var(--accent-2); }
+dialog textarea { width: 100%; min-height: 92px; padding: 11px; border: 1px solid var(--border); border-radius: 11px; background: #1b1727; color: var(--text); font: inherit; resize: vertical; }
+@media(max-width:520px){.briefing-grid{grid-template-columns:1fr}.prep-checklist{grid-template-columns:1fr}}
+.task-type { margin-left: 5px; padding: 2px 5px; border-radius: 6px; background: color-mix(in srgb,var(--accent) 18%,var(--surface)); color: var(--accent-2); font-size: .62rem; font-style: normal; font-weight: 500; text-transform: uppercase; }
+.course-progress { display: block; height: 4px; margin-top: 7px; overflow: hidden; border-radius: 99px; background: var(--border); }
+.course-progress i { display: block; height: 100%; background: linear-gradient(90deg,var(--accent),var(--accent-2)); }

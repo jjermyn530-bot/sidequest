@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#100d19">
   <meta name="description" content="A private, offline-first school command centre.">
-  <link rel="manifest" href="manifest.webmanifest?v=24">
+  <link rel="manifest" href="manifest.webmanifest?v=25">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=24">
-  <link rel="stylesheet" href="friends.css?v=24">
-  <link rel="stylesheet" href="quick-progress.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=25">
+  <link rel="stylesheet" href="friends.css?v=25">
+  <link rel="stylesheet" href="quick-progress.css?v=25">
   <title>Sidequest</title>
 </head>
 <body>
@@ -29,6 +29,16 @@
           <div class="split"><span>Level 7 · Academic Menace</span><span id="xp-label">680 / 1000 XP</span></div>
           <div class="progress-track"><span id="xp-bar"></span></div>
         </article>
+
+        <section class="briefing" aria-labelledby="briefing-title">
+          <div class="section-heading"><h2 id="briefing-title">Daily briefing</h2><span id="briefing-status">Saved locally</span></div>
+          <div class="briefing-grid">
+            <article class="briefing-hero"><span class="eyebrow" id="briefing-day">Next school day</span><strong id="briefing-countdown">Calculating…</strong><small id="briefing-summary"></small></article>
+            <article class="weather-card"><span id="weather-icon">◌</span><div><strong id="weather-temp">Weather offline</strong><small id="weather-summary">London</small></div></article>
+          </div>
+          <div class="prep-checklist" id="prep-checklist"></div>
+          <article class="personal-countdown" id="personal-countdown" hidden></article>
+        </section>
 
         <section class="home-schedule" aria-labelledby="schedule-title">
           <div class="section-heading"><h2 id="schedule-title">School radar</h2><span id="home-week-label">Week A</span></div>
@@ -124,6 +134,13 @@
           <label class="secondary-button import-label">Import backup<input id="import-input" type="file" accept="application/json"></label>
         </article>
         <article class="settings-card">
+          <div class="settings-heading"><div><span class="eyebrow">Daily briefing</span><h3>Life dashboard</h3></div></div>
+          <label>Weather town<input id="weather-town" value="London" maxlength="80" autocomplete="address-level2"></label>
+          <label>Important countdown name<input id="countdown-name" maxlength="60" placeholder="Holiday, birthday, release…"></label>
+          <label>Countdown date<input id="countdown-date" type="date"></label>
+          <button class="primary-button" id="save-briefing" type="button">Save briefing</button>
+        </article>
+        <article class="settings-card">
           <div class="settings-heading"><div><span class="eyebrow">Android alerts</span><h3>Notifications</h3></div><span class="permission-badge" id="notification-state">Not enabled</span></div>
           <label class="switch-row"><span>Morning lesson briefing</span><input id="morning-enabled" type="checkbox" checked></label>
           <label>Morning time<input id="morning-time" type="time" value="07:00"></label>
@@ -164,10 +181,15 @@
         <label>Due date<input id="task-due" type="date" required></label>
       </div>
       <div class="form-grid">
+        <label>Quest type<select id="task-type"><option value="homework">Homework</option><option value="coursework">Coursework</option><option value="revision">Revision</option><option value="bring">Bring</option></select></label>
+        <label>Progress %<input id="task-progress" type="number" min="0" max="100" step="5" value="0"></label>
+      </div>
+      <div class="form-grid">
         <label>Due lesson <span class="optional">(optional)</span><select id="task-due-lesson"><option value="">Match subject automatically</option></select></label>
         <label>Bring <span class="optional">(optional)</span><input id="task-bring" maxlength="80" autocomplete="off" placeholder="Folder, sketchbook…"></label>
       </div>
       <label>Estimated minutes<input id="task-minutes" type="number" min="5" max="600" step="5" value="30"></label>
+      <label>Milestones <span class="optional">(one per line)</span><textarea id="task-milestones" maxlength="800" placeholder="Research&#10;First draft&#10;Evidence screenshots&#10;Evaluation"></textarea></label>
       <menu><button class="delete-button" id="delete-task" type="button" hidden>Delete</button><span class="menu-spacer"></span><button class="secondary-button" value="cancel" formmethod="dialog">Cancel</button><button class="primary-button" value="default">Save quest</button></menu>
     </form>
   </dialog>
@@ -221,6 +243,6 @@
   </dialog>
 
   <div class="status-pill" id="status-pill" aria-live="polite">Offline ready</div>
-  <script type="module" src="app.js?v=24"></script>
+  <script type="module" src="app.js?v=25"></script>
 </body>
 </html>
