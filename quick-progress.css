@@ -1,0 +1,27 @@
+.progress-ring {
+  padding: 0;
+  border: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.progress-quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.progress-quick button {
+  padding: 6px 3px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: .68rem;
+  cursor: pointer;
+}
+
+.progress-quick button:last-child {
+  color: var(--accent-2);
+}
