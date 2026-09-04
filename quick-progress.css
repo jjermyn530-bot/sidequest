@@ -25,3 +25,32 @@
 .progress-quick button:last-child {
   color: var(--accent-2);
 }
+
+.quick-capture {
+  margin: 14px 0 4px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.quick-capture > label {
+  margin: 0 0 7px;
+  color: var(--accent-2);
+  font-size: .75rem;
+}
+
+.quick-capture > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 7px;
+}
+
+.quick-capture input { margin: 0; }
+
+.quick-capture small {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  line-height: 1.35;
+}
